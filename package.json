@@ -1,0 +1,16 @@
+{
+  "name": "static-website-generator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc ./tool/gennerator.ts --outDir dist",
+    "gen": "node ./dist/tool/gennerator.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.6.0"
+  }
+}
