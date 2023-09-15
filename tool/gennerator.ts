@@ -41,13 +41,13 @@ function generatehtml(dom: DOMElement<DOMTag>, space = SPACE_COUNT): string {
     }
     html += `</${dom.tag}>`;
     if (space == SPACE_COUNT) {
-        html = "<!DOCTYPE html>\n" + html + "\n</html>";
+        html = "<!DOCTYPE html>\n<html>\n<body>\n" + html + "\n<body>\n</html>";
     }
     return html;
 }
 
 function generatecss(dom: DOMElement<DOMTag>, prex: string = ''): string {
-    let css = "";
+    let css = "body{\n    margin:0;\n    padding:0;\n}\n";
     if (dom.class) {
         if (prex != '') {
             css += `${prex} `;
@@ -56,7 +56,13 @@ function generatecss(dom: DOMElement<DOMTag>, prex: string = ''): string {
         for (let i = 0; i < 4; i++) {
             css += " ";
         }
-        css += dom.class.map(cls => cls.style.map(style => `${style.key}:${style.value}`).join(";")).join(";\n");
+        css += dom.class.map(cls => cls.style.map(style => {
+            if (style.value instanceof Array) {
+                return `${style.key}:${style.value.join(" ")}`
+            } else {
+                return `${style.key}:${style.value}`
+            }
+        }).join(";\n    "));
         css += "\n}\n";
     }
     if (dom.children) {
