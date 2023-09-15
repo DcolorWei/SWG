@@ -1,5 +1,7 @@
+import { Div } from "./style-key/div";
+
 //tag
-export class DOMElement<T extends DOMTag = DOMTag> {
+export class DOMElement<T extends DOMTag = "div"> {
     tag: DOMTag;
     id?: string;
     class?: Array<DOMClass>;
@@ -9,24 +11,20 @@ export class DOMElement<T extends DOMTag = DOMTag> {
 }
 
 export interface DOMTagKey {
-    div: {
-        width: "100vw"|"10vh",
-        height: "100vh",
-        display: "flex" | "block" | "inline-block" | "inline",
-    },
+    div: Div;
 }
 export type DOMTag = keyof DOMTagKey;
 
 // class
-export interface DOMClass {
+export interface DOMClass<T extends keyof DOMTagKey = "div"> {
     name: string;
-    style: Array<DOMStyle>;
+    style: Array<DOMStyle<T>>;
 }
 
 // style
-export interface DOMStyle<T extends DOMTag = DOMTag, K extends keyof DOMTagKey[T] = keyof DOMTagKey[T]> {
+export interface DOMStyle<T extends DOMTag = "div", K extends keyof DOMTagKey[T] = keyof DOMTagKey[T]> {
     key: StyleKey<T>;
-    value: StyleValue<T, K>;
+    value: StyleValue<T, K> | Array<StyleValue<T, K>>;
 }
 
 // style-key & style-value
