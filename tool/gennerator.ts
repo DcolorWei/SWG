@@ -14,7 +14,7 @@ function generatehtml(dom: DOMElement<DOMTag>, space = SPACE_COUNT): string {
         html += ` id="${dom.id}"`;
     }
     if (dom.class) {
-        html += ` class="${dom.class.map(cls => cls.name).join(" ")}"`;
+        html += ` class="${dom.class.name}"`;
     }
     if (dom.style) {
         html += ` style="${dom.style.map(style => `${style.key}:${style.value}`).join(";")}"`;
@@ -52,22 +52,30 @@ function generatecss(dom: DOMElement<DOMTag>, prex: string = ''): string {
         if (prex != '') {
             css += `${prex} `;
         }
-        css += `.${dom.class.map(cls => cls.name).join(".")}{\n`;
+        // css += `.${dom.class.map(cls => cls.name).join(".")}{\n`;
+        // for (let i = 0; i < 4; i++) {
+        //     css += " ";
+        // }
+        // css += dom.class.map(cls => cls.style.map(style => {
+        //     if (style.value instanceof Array) {
+        //         return `${style.key}:${style.value.join(" ")}`
+        //     } else {
+        //         return `${style.key}:${style.value}`
+        //     }
+        // }).join(";\n    "));
+        css += `.${dom.class.name} {\n`;
         for (let i = 0; i < 4; i++) {
             css += " ";
         }
-        css += dom.class.map(cls => cls.style.map(style => {
-            if (style.value instanceof Array) {
-                return `${style.key}:${style.value.join(" ")}`
-            } else {
+        css += dom.class.style.map(style => {
                 return `${style.key}:${style.value}`
             }
-        }).join(";\n    "));
+        ).join(";\n    ");
         css += "\n}\n";
     }
     if (dom.children) {
         for (const child of dom.children) {
-            const childcss = generatecss(child, prex + (dom.class ? `.${dom.class.map(cls => cls.name).join(".")}` : ''));
+            const childcss = generatecss(child, prex + (dom.class ? `.${dom.class.name}` : ''));
             css += childcss;
         }
     }

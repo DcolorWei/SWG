@@ -4,7 +4,7 @@ import { Div } from "./style-key/div";
 export class DOMElement<T extends DOMTag = "div"> {
     tag: DOMTag;
     id?: string;
-    class?: Array<DOMClass>;
+    class?: DOMClass;
     style?: Array<DOMStyle>;
     innerText?: string;
     children?: DOMElement<T>[];
